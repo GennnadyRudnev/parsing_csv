@@ -3,6 +3,14 @@ package com.example;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @see <a href="http://progerson.ru/2942-metod-rekursivnogo-spuska-java-math-parser.html">MathParser</a>
+ * Класс модифицирован автором ShamaN.
+ * Метод рекурсивного спуска для интерпретирования математических выражений.
+ * Поддерживаются тригонометрические функции с одним/двумя параметрами.
+ * @author shurik
+ * @version 1.1
+ */
 public class MathParser {
     private static Map<String, Double> var;
 

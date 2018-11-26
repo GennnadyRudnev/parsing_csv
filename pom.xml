@@ -18,7 +18,44 @@
 
     </dependencies>
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <packageName>com.example</packageName>
+        <mainClass>${packageName}.App</mainClass>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                            <packageName>${packageName}</packageName>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>classes/</classpathPrefix>
+                        </manifest>
+                        <manifestEntries>
+                            <mode>development</mode>
+                            <url>${pom.url}</url>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

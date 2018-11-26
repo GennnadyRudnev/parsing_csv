@@ -4,11 +4,18 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс предназначен для работы с файлами формата csv
+ * Состоит из статических методов
+ */
 public final class CSVUtils {
     private CSVUtils() {
     }
@@ -19,22 +26,33 @@ public final class CSVUtils {
 
     private static final String OPERATIONS = "[+-/*]";
 
+    private static Pattern pattern = Pattern.compile("\\d*[A-Z]{0,1}\\d+[+\\-\\/*]{1}\\d*[A-Z]{0,1}\\d+");
+
+    /**
+     * Читает все содержимое файла в список.
+     * @param pathFile - путь к файлу
+     * @return - возвращает список строк
+     * @throws IOException
+     */
     public static List<String> readAll(String pathFile) throws IOException {
         return Files.readAllLines(Paths.get(pathFile), StandardCharsets.UTF_8);
     }
 
-    public static void writeAll(String pathFile) throws IOException {
-//        return Files.wr
-    }
 
     public static boolean isDigits(String str) {
         return str.matches("\\d*");
     }
 
     public static boolean isFormula(String str) {
-        return str.matches("\\d*[A-Z]{0,1}\\d+[+\\-\\/*]{1}\\d*[A-Z]{0,1}\\d+");
+
+        return pattern.matcher(str).find();
     }
 
+    /**
+     * Заменяет название ячейки на число, выражение
+     * @param list - список строк для изменения
+     * @return - возвращает Map с заменнеными значениями
+     */
     public static Map<Character, List<String>> cellReplacementByValue(List<String> list) {
         Map<Character, List<String>> values = new LinkedHashMap<>();
         boolean repeat = true;
@@ -64,8 +82,8 @@ public final class CSVUtils {
                             }
                         }
                     }
-                    if (values.get(alphabet[j]).size() > j && values.get(alphabet[j]).get(j) != null) {
-                        values.get(alphabet[j]).set(j, strArr[j]);
+                    if (values.get(alphabet[j]).size() > i && values.get(alphabet[j]).get(i) != null) {
+                        values.get(alphabet[j]).set(i, strArr[j]);
                     } else {
                         values.get(alphabet[j]).add(strArr[j]);
                     }
@@ -76,4 +94,7 @@ public final class CSVUtils {
 
         return values;
     }
+
+
+
 }
